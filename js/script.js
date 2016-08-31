@@ -24,6 +24,8 @@ function ready() {
         selector:'mySlider'
         , width:900
         , loop:false
+        , nextArrow: '<img src="https://cdn0.iconfinder.com/data/icons/website-kit-2/512/icon_403-16.png">'
+        , prevArrow: '<img src="https://cdn0.iconfinder.com/data/icons/website-kit-2/512/icon_402-16.png">'
     });
     slider.init();
 
