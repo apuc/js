@@ -65,21 +65,21 @@ function SimpleSlider(options){
     };
 
     this.prev = function(event){
-        var activeSlide = document.getElementsByClassName('activeSimpleSlider')[0];
-        var prevSlide = activeSlide.previousElementSibling;
+        var activeSlide = document.getElementsByClassName('activeSimpleSlider')[0]; //находим активный слайд
+        var prevSlide = activeSlide.previousElementSibling; // получаем следующий слайд
 
         if(prevSlide !== null){
-            this.classRemove(activeSlide, 'activeSimpleSlider');
+            this.classRemove(activeSlide, 'activeSimpleSlider'); // удаляем класс активный класс у активного слайда
             activeSlide.style.display = 'none';
-            this.addClass(prevSlide, 'activeSimpleSlider');
+            this.addClass(prevSlide, 'activeSimpleSlider'); // добавляем класс следующему слайду
             prevSlide.style.display = 'block';
         }
         else {
-            if(this.options.loop){
-                this.classRemove(activeSlide, 'activeSimpleSlider');
+            if(this.options.loop){ //если включена петля
+                this.classRemove(activeSlide, 'activeSimpleSlider');  // удаляем активный класс текущего класса
                 activeSlide.style.display = 'none';
-                prevSlide = this.slider.getElementsByTagName('div')[this.slider.getElementsByTagName('div').length-2];
-                this.addClass(prevSlide, 'activeSimpleSlider');
+                prevSlide = this.slider.getElementsByTagName('div')[this.slider.getElementsByTagName('div').length-2]; //из длины строки вычитаем стрелки
+                this.addClass(prevSlide, 'activeSimpleSlider'); // добавляем класс слайду
                 prevSlide.style.display = 'block';
             }
         }
