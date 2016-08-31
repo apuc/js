@@ -4,8 +4,8 @@ function SimpleSlider(options){
         width: 700,
         height: 400,
         loop:false,
-        nextArrow:'След.',
-        prevArrow:'Пред.',
+        nextArrow:'NEXT',
+        prevArrow:'PREV',
         nextArrowClass:'nextClass',
         prevArrowClass:'prevClass'
     };
@@ -28,8 +28,10 @@ function SimpleSlider(options){
         this.slider.style.height = this.options.height + "px";
         var countSlids = this.slider.getElementsByTagName('div').length;
         this.slider.innerHTML += "<div class='arrows'><span class='"+ this.options.prevArrowClass +"' id='prev'>Пред.</span><span class='"+ this.options.nextArrowClass +"' id='next'>След.</span></div>";
-        document.getElementById('next').onclick = this.nextFade.bind(this);
+
+        document.getElementById('next').onclick = this.next.bind(this);
         document.getElementById('prev').onclick = this.prev.bind(this);
+
         for (var i=0;i<countSlids;i++){
             this.slider.getElementsByTagName('div')[i].className = "simpleSlide";
             if(i == 0) {
