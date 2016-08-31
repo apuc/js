@@ -28,7 +28,7 @@ function SimpleSlider(options){
         this.slider.style.height = this.options.height + "px";
         var countSlids = this.slider.getElementsByTagName('div').length;
         this.slider.innerHTML += "<div class='arrows'><span class='"+ this.options.prevArrowClass +"' id='prev'>Пред.</span><span class='"+ this.options.nextArrowClass +"' id='next'>След.</span></div>";
-        document.getElementById('next').onclick = this.next.bind(this);
+        document.getElementById('next').onclick = this.nextFade.bind(this);
         document.getElementById('prev').onclick = this.prev.bind(this);
         for (var i=0;i<countSlids;i++){
             this.slider.getElementsByTagName('div')[i].className = "simpleSlide";
@@ -84,7 +84,38 @@ function SimpleSlider(options){
     };
 
     this.nextFade = function(event){
+        var activeSlide = document.getElementsByClassName('activeSimpleSlider')[0];//находим активный слайд
+        var nextSlide = activeSlide.nextElementSibling; // получаем следующий слайд
 
+        var alAS = new animationLab(activeSlide);
+        var slider = this;
+
+        if(!nextSlide.classList.contains('arrows')){ // если следующий элемент не содеожит класс "arrows"
+            this.classRemove(activeSlide, 'activeSimpleSlider'); // удаляем класс активный класс у активного слайда
+
+            alAS.fadeOut(1000, function(){
+                activeSlide.style.display = 'none';
+                slider.addClass(nextSlide, 'activeSimpleSlider'); // добавляем класс следующему слайду
+                nextSlide.style.opacity = '0';
+                nextSlide.style.display = 'block';
+                var alNS = new animationLab(nextSlide);
+                alNS.fadeIn(1000);
+            });
+        }
+        else {
+            if(this.options.loop){ //  провеверяем на петлю
+                this.classRemove(activeSlide, 'activeSimpleSlider'); // удаляем класс активный класс у активного слайда
+                alAS.fadeOut(1000, function(){
+                    activeSlide.style.display = 'none';
+                    nextSlide = slider.slider.getElementsByTagName('div')[0]; // находим первый слайд
+                    slider.addClass(nextSlide, 'activeSimpleSlider'); // добавляем класс следующему слайду
+                    nextSlide.style.opacity = '0';
+                    nextSlide.style.display = 'block';
+                    var alNS = new animationLab(nextSlide);
+                    alNS.fadeIn(1000);
+                });
+            }
+        }
     }
 
     this.prevFade = function(event){

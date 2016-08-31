@@ -20,10 +20,16 @@ function ready() {
 
     //man.say("Привет");
 
+    var al = new animationLab(document.getElementById('test'));
+    al.fadeIn(3000, function(){
+        al.fadeOut(3000);
+    });
+
+
     var slider = new SimpleSlider({
         selector:'mySlider'
         , width:900
-        , loop:false
+        , loop:true
     });
     slider.init();
 
