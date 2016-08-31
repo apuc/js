@@ -27,7 +27,7 @@ function SimpleSlider(options){
         this.slider.style.width = this.options.width + "px";
         this.slider.style.height = this.options.height + "px";
         var countSlids = this.slider.getElementsByTagName('div').length;
-        this.slider.innerHTML += "<div class='arrows'><span class='"+ this.options.prevArrowClass +"' id='prev'>Пред.</span><span class='"+ this.options.nextArrowClass +"' id='next'>След.</span></div>";
+        this.slider.innerHTML += "<div class='arrows'><span class='"+ this.options.prevArrowClass +"' id='prev'>"+ this.options.prevArrow +"</span><span class='"+ this.options.nextArrowClass +"' id='next'>"+ this.options.nextArrow +"</span></div>";
 
         document.getElementById('next').onclick = this.next.bind(this);
         document.getElementById('prev').onclick = this.prev.bind(this);
