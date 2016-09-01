@@ -25,9 +25,13 @@ function ready() {
         al.fadeOut(3000);
     });*/
 
-    al.slideUp(1000, function(){
-        al.slideDown(1000);
-    });
+/*     al.slideUp(1000, function(){
+         al.slideDown(1000);
+     });*/
+
+     al.toggle(3000, function(){
+        al.toggle(3000); 
+     });
 
 
     var slider = new SimpleSlider({
