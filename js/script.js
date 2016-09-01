@@ -20,9 +20,13 @@ function ready() {
 
     //man.say("Привет");
 
-    var al = new animationLab(document.getElementById('test'));
-    al.fadeIn(3000, function(){
+    var al = new animationLab('#test');
+    /*al.fadeIn(3000, function(){
         al.fadeOut(3000);
+    });*/
+
+    al.slideUp(1000, function(){
+        al.slideDown(1000);
     });
 
 
