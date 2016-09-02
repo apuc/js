@@ -117,16 +117,13 @@ function animationLab(selector) {
         });
     }
 
-    this.toggle = function(duration, callback){
-         
-            var display = getComputedStyle(this.obj).display;
-            if(display == 'block'){
-                this.slideUp(duration, callback);
-            }else{
-                this.slideDown(duration, callback); 
-            };
-        
-
+    this.toggle = function (duration, callback) {
+        var display = getComputedStyle(this.obj).display;
+        if (display == 'block') {
+            this.slideUp(duration, callback);
+        } else {
+            this.slideDown(duration, callback);
+        }
     }
 
     this.justNumber = ['width', 'height'];

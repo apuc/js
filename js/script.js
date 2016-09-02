@@ -45,12 +45,20 @@ function ready() {
 
 
     var form = document.getElementById('myForm');
+    var input1 = document.getElementById('myInput1');
     var input = document.getElementsByClassName('myInput');
+
     //console.log(input[0]);
     for (var i=0;i<input.length;i++){
         input[i].onblur = onblurFunc;
     }
     function onblurFunc(){
-        //console.log(form.checkValidity());
+        if(!this.checkValidity()){
+            this.style.border = "1px solid red";
+            this.setCustomValidity(this.getAttribute('data-msg'));
+        }
+        else {
+            this.style.border = "1px solid green";
+        }
     }
 }
