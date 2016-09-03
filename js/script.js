@@ -43,10 +43,15 @@ function ready() {
     });
     slider.init();
 
+    var val = new validation({
+        class: "valItem",
+        tagNameValPattern: "data-val",
+        tagNameMessage: "data-msg"
+    });
 
     var form = document.getElementById('myForm');
     var input1 = document.getElementById('myInput1');
-    var input = document.getElementsByClassName('myInput');
+    var input = document.getElementsByClassName('myInput_');// сломал waryataw
 
     //console.log(input[0]);
     for (var i=0;i<input.length;i++){

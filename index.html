@@ -10,6 +10,7 @@
     <script src="/js/animationLab.js"></script>
     <script src="/js/slider.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/validation.js"></script>
 </head>
 <body>
 <!--<div class="class_el class_el_1" id="el_1"></div>
@@ -22,8 +23,12 @@
 </div>
 <br><br><br><br>
 <form action="/" id="myForm">
-    <input type="text" class="myInput" id="myInput1" data-tpl="number, countMax10" data-msg="нихера" pattern="^[a-zA-Z]+$" required><br>
-    <input type="text" class="myInput" id="myInput2" pattern="^[а-яА-Я]+$" required><br>
+    <input type="text" class="myInput valItem" id="myInput1" data-tpl="number, countMax10" data-msg="нихера" pattern="^[a-zA-Z]+$" required><br>
+    <input type="text" class="myInput valItem" id="myInput2" pattern="^[а-яА-Я]+$" required><br>
+    <input type="text" class="myInput valItem" data-val="/ab+c/" id="myInput1" data-tpl="" data-msg="нихера" pattern="^[a-zA-Z]+$" required><br>
+    <input type="text" class="myInput valItem" data-val="/ab+c/" id="myInput1" data-tpl="" data-msg="нихера" pattern="^[a-zA-Z]+$" required><br>
+    <input type="text" class="myInput valItem" data-val="/ab+c/" id="myInput1" data-tpl="" data-msg="нихера" pattern="^[a-zA-Z]+$" required><br>
+
     <input type="submit" value="Отправить">
 </form>
 <div id="test"></div>
