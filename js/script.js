@@ -43,10 +43,10 @@ function ready() {
     });
     slider.init();
 
-    var val = new validation({
+    var valid = new Validation();
+    valid.init({
         class: "valItem",
-        tagNameValPattern: "data-val",
-        tagNameMessage: "data-msg"
+        eventElement:'#sub'
     });
 
     var form = document.getElementById('myForm');

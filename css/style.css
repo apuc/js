@@ -27,4 +27,7 @@
   border-radius: 4px;
   padding: 5px; }
 
+.inputError {
+  border: 1px solid red; }
+
 /*# sourceMappingURL=style.css.map */
