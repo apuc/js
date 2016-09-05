@@ -46,7 +46,8 @@ function ready() {
     var valid = new Validation();
     valid.init({
         class: "valItem",
-        eventElement:'#sub'
+        eventElement:'#sub',
+        event:'onblur'
     });
 
     var form = document.getElementById('myForm');

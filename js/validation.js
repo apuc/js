@@ -21,10 +21,19 @@ function Validation() {
         }
         this.options = this.finalParams;
 
-        var submitElement = this.getSubmitElement();
+
 
         if (this.options.event == 'submit') {
+            var submitElement = this.getSubmitElement();
             submitElement.onclick = this.customSubmit.bind(this);
+        }else if(this.options.event == 'onblur'){
+            var valElements = this.getValInput();
+            for (var i = 0; i < valElements.length; i++) {
+                console.log(valElements);
+                valElements.onblur  = this.customValidationOnblur.bind(this);
+
+            }
+
         }
     }
 
@@ -64,6 +73,13 @@ function Validation() {
             form.submit();
         }
     }
+    //waryatav
+    this.customValidationOnblur = function (event) {
+        console.log("its ok");
+
+
+    }
+    //waryatav
 
     this.getParent = function (obj, parentTagName) {
         return (obj.tagName==parentTagName)?obj:this.getParent(obj.parentNode, parentTagName);
@@ -81,7 +97,20 @@ function Validation() {
         }
         return submitElement;
     }
+//Waryatav
+    this.getValInput = function(){
+        var submitElement;
 
+        if (this.options.class[0] == '#') {
+            submitValInput = document.getElementById(this.options.class);
+        }
+        else {
+            submitValInput = document.getElementsByClassName(this.options.class);
+        }
+
+        return submitValInput;
+    }
+    //Waryatav
     this.insertAfter = function (elem, refElem) {
         console.log(refElem);
         var parent = refElem.parentNode;
