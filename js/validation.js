@@ -60,7 +60,12 @@ function Validation() {
 
         }
         if (this.findFalse(flag)) {
-            form.submit();
+            //waryatav<
+            for (var i = 0; i < validationElements.length; i++) {
+                this.ajaxValidPost(validationElements[i]);
+            }
+            //waryatav//form.submit();
+            //waryatav>
         }
     }
     //waryatav
@@ -155,7 +160,7 @@ function Validation() {
             var obj = this;
             xhr.onreadystatechange = function () {
                 if (xhr.readyState != 4) return;
-                console.log(xhr.responseText);
+                 console.log(xhr.responseText);
                 if (xhr.status == 200) {
                     var ans = JSON.parse(xhr.responseText);
                     if(ans.status == 0){

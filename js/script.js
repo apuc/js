@@ -47,7 +47,7 @@ function ready() {
     valid.init({
         class: "valItem",
         eventElement:'#sub',
-        event:'onblur'
+        event:'submit'
     });
 
     var form = document.getElementById('myForm');
