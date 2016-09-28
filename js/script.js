@@ -47,7 +47,12 @@ function ready() {
     valid.init({
         class: "valItem",
         eventElement:'#sub',
-        event:'submit'
+        event:'submit',
+        ajaxUrl:'ajax.php',
+        ajax:true,
+        /*ajaxSubmitSuccess: function(responseText, err, form){
+            console.log(err);
+        }*/
     });
 
     var form = document.getElementById('myForm');

@@ -7,7 +7,17 @@ function Validation() {
             event: 'submit',
             eventElement: '#submit',
             errorClass: 'inputError',
-            errorMessageClass: 'errorMsgClass'
+            errorMessageClass: 'errorMsgClass',
+            ajaxUrl: 'ajax.php',
+            ajax: false,
+            ajaxSubmitSuccess: function(responseText, err, form){
+                if (!err) {
+                    form.submit();
+                }
+            },
+            ajaxOnblurSuccess: function(){
+
+            }
         };
 
         this.finalParams = this.defaultParams;
@@ -32,6 +42,8 @@ function Validation() {
             }
         }
     }
+
+    window.hasError = false;
 
     this.customSubmit = function (event) {
         event.preventDefault();
@@ -59,16 +71,18 @@ function Validation() {
             }
 
         }
+        /*if (this.findFalse(flag)) {
+            this.ajaxValidPost(validationElements, function (responseText, err) {
+                if (!err) {
+                    form.submit();
+                }
+            });
+        }*/
         if (this.findFalse(flag)) {
-            //waryatav<
-            for (var i = 0; i < validationElements.length; i++) {
-                this.ajaxValidPost(validationElements[i]);
-            }
-            //waryatav//form.submit();
-            //waryatav>
+            this.ajaxValidPost(validationElements, this.options.ajaxSubmitSuccess);
         }
     }
-    //waryatav
+
     this.customValidationOnblur = function (event) {
         var validationElement = event.target;
         var next = validationElement.nextSibling;
@@ -84,11 +98,10 @@ function Validation() {
                 this.generateErrorMsg(validationElement);
             }
             else {
-                this.ajaxValidPost(validationElement);
+                this.ajaxValidPost(validationElement, this.ajaxOnblurSuccess());
             }
         }
     }
-    //waryatav
 
     this.getParent = function (obj, parentTagName) {
         return (obj.tagName == parentTagName) ? obj : this.getParent(obj.parentNode, parentTagName);
@@ -152,36 +165,81 @@ function Validation() {
         return true;
     }
 
-    this.ajaxValidPost = function (validationElement) {
-        if (validationElement.hasAttribute('data-url')) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', validationElement.getAttribute('data-url'), true);
+
+    this.ajaxValidPost = function (validationElement, callback) {
+        callback = callback || function () {
+            };
+        if (!this.options.ajax) return;
+        var xhr = new XMLHttpRequest();
+        var obj = this;
+        var flag = false;
+        if (validationElement.length > 1) {
+            var send = '';
+            for (var i = 0; i < validationElement.length; i++) {
+                send += validationElement[i].getAttribute('name') + '=' + encodeURIComponent(validationElement[i].value) + '&';
+            }
+            xhr.open('POST', this.options.ajaxUrl, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            var obj = this;
+
             xhr.onreadystatechange = function () {
                 if (xhr.readyState != 4) return;
-                 console.log(xhr.responseText);
                 if (xhr.status == 200) {
                     var ans = JSON.parse(xhr.responseText);
-                    if(ans.status == 0){
-                        obj.generateAjaxErrorMsg(validationElement, ans.error_msg);
-                    }
-                    else {
-                        obj.deleteErrorMsg(validationElement);
+                    for (var i = 0; i < ans.length; i++) {
+                        var vEl = document.getElementsByName(ans[i].item);
+                        if (ans[i].status == 0) {
+                            obj.generateAjaxErrorMsg(vEl[0], ans[i].error_msg);
+                            flag = true;
+                        }
+                        else {
+                            obj.deleteErrorMsg(vEl[0]);
+                        }
                     }
                 }
                 else {
-                    //obj = {status: 0, error_msg: xhr.status};
-                    obj.generateAjaxErrorMsg(validationElement, 'Ошибка ' + xhr.status);
+                    for (var j = 0; j < validationElement.length; j++) {
+                        obj.generateAjaxErrorMsg(validationElement[j], 'Ошибка ' + xhr.status);
+                        flag = true;
+                    }
                 }
-            };
-            xhr.send(validationElement.getAttribute('name') + '=' + encodeURIComponent(validationElement.value));
+            }
+            send = send.slice(0, send.length - 1);
+            xhr.send(send);
+        }
+        else {
+            if (validationElement.hasAttribute('data-url')) {
+                xhr.open('POST', this.options.ajaxUrl, true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState != 4) return;
+                    if (xhr.status == 200) {
+                        var ans = JSON.parse(xhr.responseText);
+                        if (ans.status == 0) {
+                            obj.generateAjaxErrorMsg(validationElement, ans.error_msg);
+                            flag = true;
+                        }
+                        else {
+                            obj.deleteErrorMsg(validationElement);
+                        }
+                    }
+                    else {
+                        obj.generateAjaxErrorMsg(validationElement, 'Ошибка ' + xhr.status);
+                        flag = true;
+                    }
+                }
+
+                xhr.send(validationElement.getAttribute('name') + '=' + encodeURIComponent(validationElement.value));
+            }
+        }
+        var form = this.getParent(this.getSubmitElement(), 'FORM');
+        xhr.onloadend = function () {
+            callback(xhr.responseText, flag, form);
         }
     }
 
-    this.deleteErrorMsg = function(vEl){
+    this.deleteErrorMsg = function (vEl) {
         vEl.classList.remove(this.options.errorClass);
-        if(vEl.nextSibling.classList.contains(this.options.errorMessageClass)){
+        if (vEl.nextSibling.classList.contains(this.options.errorMessageClass)) {
             vEl.nextSibling.remove();
         }
     }
