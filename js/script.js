@@ -47,9 +47,13 @@ function ready() {
     valid.init({
         class: "valItem",
         eventElement:'#sub',
-        event:'submit',
+        event:'onblur',
         ajaxUrl:'ajax.php',
         ajax:true,
+        ajaxOnblurSuccess: function(responseText, err, form) {
+            console.log("Hello from custom ajaxOnblurSuccess function");
+            console.log(err);
+        }
         /*ajaxSubmitSuccess: function(responseText, err, form){
             console.log(err);
         }*/

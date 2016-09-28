@@ -14,9 +14,11 @@ function Validation() {
                 if (!err) {
                     form.submit();
                 }
+                console.log(err);
             },
-            ajaxOnblurSuccess: function(){
-
+            ajaxOnblurSuccess: function(responseText, err, form){
+                console.log("Hello from default ajaxOnblurSuccess function");
+                console.log(err);
             }
         };
 
@@ -98,7 +100,7 @@ function Validation() {
                 this.generateErrorMsg(validationElement);
             }
             else {
-                this.ajaxValidPost(validationElement, this.ajaxOnblurSuccess());
+                this.ajaxValidPost(validationElement, this.options.ajaxOnblurSuccess);
             }
         }
     }
