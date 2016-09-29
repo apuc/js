@@ -49,7 +49,15 @@ function ready() {
         eventElement:'#sub',
         event:'onblur',
         ajaxUrl:'ajax.php',
-        ajax:true,
+        ajax:false
+        /*ajaxOnblurSuccess: function(responseText, err, form) {
+            if(err){
+                alert('Ошибка');
+            }
+            else {
+                alert('Ура');
+            }
+        }*/
         /*ajaxSubmitSuccess: function(responseText, err, form){
             console.log(err);
         }*/

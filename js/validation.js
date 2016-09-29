@@ -15,7 +15,7 @@ function Validation() {
                     form.submit();
                 }
             },
-            ajaxOnblurSuccess: function(){}
+            ajaxOnblurSuccess: function(responseText, err, form){}
         };
 
         this.finalParams = this.defaultParams;
@@ -67,10 +67,14 @@ function Validation() {
                     flag.push(true);
                 }
             }
-
         }
         if (this.findFalse(flag)) {
-            this.ajaxValidPost(validationElements, this.options.ajaxSubmitSuccess);
+            if(this.options.ajax){
+                this.ajaxValidPost(validationElements, this.options.ajaxSubmitSuccess);
+            }
+            else {
+                form.submit();
+            }
         }
     }
 
@@ -81,7 +85,17 @@ function Validation() {
             next.parentNode.removeChild(next);
         }
         if (validationElement.hasAttribute('data-tpl')) {
-
+            var arr = validationElement.getAttribute('data-tpl');
+            var pat = this.tpls();
+            var val = validationElement.value;
+            arr = arr.split(',');
+            for(var i=0;i<arr.length;i++){
+                var text = pat[arr[i]];
+                console.log(pat[arr[i]]);
+                console.log(/\d [0-9]/.test(val));
+                console.log(val.match(pat[arr[i]]));
+                //console.log(val);
+            }
         }
         else {
             if (!validationElement.checkValidity()) {
@@ -89,7 +103,7 @@ function Validation() {
                 this.generateErrorMsg(validationElement);
             }
             else {
-                this.ajaxValidPost(validationElement, this.ajaxOnblurSuccess);
+                this.ajaxValidPost(validationElement, this.options.ajaxOnblurSuccess);
             }
         }
     }
@@ -232,5 +246,12 @@ function Validation() {
         if (vEl.nextSibling.classList.contains(this.options.errorMessageClass)) {
             vEl.nextSibling.remove();
         }
+    }
+
+    this.tpls = function(){
+        var arr = [];
+
+        arr['one_number'] = '/\\d [0-9]/';
+        return arr;
     }
 }
