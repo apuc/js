@@ -10,12 +10,13 @@ function Validation() {
             errorMessageClass: 'errorMsgClass',
             ajaxUrl: 'ajax.php',
             ajax: false,
-            ajaxSubmitSuccess: function(responseText, err, form){
+            ajaxSubmitSuccess: function (responseText, err, form) {
                 if (!err) {
                     form.submit();
                 }
             },
-            ajaxOnblurSuccess: function(responseText, err, form){}
+            ajaxOnblurSuccess: function (responseText, err, form) {
+            }
         };
 
         this.finalParams = this.defaultParams;
@@ -69,7 +70,7 @@ function Validation() {
             }
         }
         if (this.findFalse(flag)) {
-            if(this.options.ajax){
+            if (this.options.ajax) {
                 this.ajaxValidPost(validationElements, this.options.ajaxSubmitSuccess);
             }
             else {
@@ -88,13 +89,11 @@ function Validation() {
             var arr = validationElement.getAttribute('data-tpl');
             var pat = this.tpls();
             var val = validationElement.value;
-            arr = arr.split(',');
-            for(var i=0;i<arr.length;i++){
-                var text = pat[arr[i]];
-                console.log(pat[arr[i]]);
-                console.log(/\d [0-9]/.test(val));
-                console.log(val.match(pat[arr[i]]));
-                //console.log(val);
+            if (!pat[arr.trim()].test(val)) {
+                this.generateErrorMsg(validationElement);
+            }
+            else {
+                this.deleteErrorMsg(validationElement);
             }
         }
         else {
@@ -248,10 +247,12 @@ function Validation() {
         }
     }
 
-    this.tpls = function(){
+    this.tpls = function () {
         var arr = [];
 
-        arr['one_number'] = '/\\d [0-9]/';
+        arr['number'] = /^\d+$/;
+        arr['lat'] = /^[a-zA-Z]+$/;
+        arr['kir'] = /^[А-Яа-яЁё\s]+$/;
         return arr;
     }
 }
