@@ -15,9 +15,7 @@ function Validation() {
                     form.submit();
                 }
             },
-            ajaxOnblurSuccess: function(){
-
-            }
+            ajaxOnblurSuccess: function(){}
         };
 
         this.finalParams = this.defaultParams;
@@ -71,13 +69,6 @@ function Validation() {
             }
 
         }
-        /*if (this.findFalse(flag)) {
-            this.ajaxValidPost(validationElements, function (responseText, err) {
-                if (!err) {
-                    form.submit();
-                }
-            });
-        }*/
         if (this.findFalse(flag)) {
             this.ajaxValidPost(validationElements, this.options.ajaxSubmitSuccess);
         }
@@ -98,14 +89,13 @@ function Validation() {
                 this.generateErrorMsg(validationElement);
             }
             else {
-                this.ajaxValidPost(validationElement, this.ajaxOnblurSuccess());
+                this.ajaxValidPost(validationElement, this.ajaxOnblurSuccess);
             }
         }
     }
 
     this.getParent = function (obj, parentTagName) {
         return (obj.tagName == parentTagName) ? obj : this.getParent(obj.parentNode, parentTagName);
-
     }
 
     this.generateErrorMsg = function (vEl) {

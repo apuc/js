@@ -24,11 +24,21 @@ if(count($_POST) > 1){
     echo json_encode($arr, JSON_UNESCAPED_UNICODE);
 }
 else {
-    if($_POST['login'] == 'admin'){
-        echo json_encode(['status'=>1]);
+    if(isset($_POST['login'])){
+        if($_POST['login'] == 'admin'){
+            echo json_encode(['status'=>1]);
+        }
+        else{
+            echo json_encode(['status'=>0,'error_msg'=>'Неверный логин 444'], JSON_UNESCAPED_UNICODE);
+        }
     }
-    else{
-        echo json_encode(['status'=>0,'error_msg'=>'Неверный логин 444'], JSON_UNESCAPED_UNICODE);
+    if(isset($_POST['login1'])){
+        if($_POST['login1'] == 'admin1'){
+            echo json_encode(['status'=>1]);
+        }
+        else{
+            echo json_encode(['status'=>0,'error_msg'=>'Неверный логин 111'], JSON_UNESCAPED_UNICODE);
+        }
     }
 }
 
