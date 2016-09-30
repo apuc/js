@@ -10,13 +10,14 @@ function Validation() {
             errorMessageClass: 'errorMsgClass',
             ajaxUrl: 'ajax.php',
             ajax: false,
+            tpl:[],
             ajaxSubmitSuccess: function (responseText, err, form) {
                 if (!err) {
                     form.submit();
                 }
             },
             ajaxOnblurSuccess: function (responseText, err, form) {
-            }
+            },
         };
 
         this.finalParams = this.defaultParams;
@@ -89,6 +90,7 @@ function Validation() {
             var arr = validationElement.getAttribute('data-tpl');
             var pat = this.tpls();
             var val = validationElement.value;
+            console.log(pat);
             if (!pat[arr.trim()].test(val)) {
                 this.generateErrorMsg(validationElement);
             }
@@ -247,12 +249,24 @@ function Validation() {
         }
     }
 
-    this.tpls = function () {
-        var arr = [];
+    this.tpl = [];
 
-        arr['number'] = /^\d+$/;
-        arr['lat'] = /^[a-zA-Z]+$/;
-        arr['kir'] = /^[А-Яа-яЁё\s]+$/;
-        return arr;
+    this.tpls = function () {
+        for(var i=0;i<this.options.tpl.length;i++){
+            if(this.options.tpl[i].name !== '' && this.options.tpl[i].tpl !== ''){
+                this.tpl[this.options.tpl[i].name] = this.options.tpl[i].tpl;
+            }
+        }
+        this.tpl['number'] = /^\d+$/;
+        this.tpl['lat'] = /^[a-zA-Z]+$/;
+        this.tpl['kir'] = /^[А-Яа-яЁё\s]+$/;
+        this.tpl['kir+lat'] = /^[a-zA-ZА-Яа-яЁё\s]+$/;
+        this.tpl['kir+number'] = /^[\dА-Яа-яЁё\s]+$/;
+        this.tpl['lat+number'] = /^[\da-zA-Z]+$/;
+        return this.tpl;
+    }
+
+    this.addTpl = function(name, tpl){
+        this.tpl[name] = tpl;
     }
 }

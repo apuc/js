@@ -49,7 +49,11 @@ function ready() {
         eventElement:'#sub',
         event:'onblur',
         ajaxUrl:'ajax.php',
-        ajax:false
+        ajax:false,
+        tpl:[
+            {name:'my_lat',tpl:/^[a-zA-Z]+$/},
+            {name:'my_kir',tpl:/^[А-Яа-яЁё\s]+$/}
+        ]
         /*ajaxOnblurSuccess: function(responseText, err, form) {
             if(err){
                 alert('Ошибка');
@@ -62,6 +66,8 @@ function ready() {
             console.log(err);
         }*/
     });
+
+    valid.addTpl('my_number', /^\d+$/);
 
     var form = document.getElementById('myForm');
     var input1 = document.getElementById('myInput1');
