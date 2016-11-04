@@ -9,7 +9,7 @@ function Validation() {
             errorClass: 'inputError',
             errorMessageClass: 'errorMsgClass',
             ajaxUrl: 'ajax.php',
-            ajax: false,
+            ajax: true,
             tpl:[],
             ajaxSubmitSuccess: function (responseText, err, form) {
                 if (!err) {
@@ -43,17 +43,17 @@ function Validation() {
         }
     }
 
-    window.hasError = false;
-
     this.customSubmit = function (event) {
         event.preventDefault();
         var validationElements = document.getElementsByClassName(this.options.class);
         var form = this.getParent(this.getSubmitElement(), 'FORM');
         var flag = [];
         for (var i = 0; i < validationElements.length; i++) {
-            var next = validationElements[i].nextSibling;
-            if (next.classList.contains(this.options.errorMessageClass)) {
-                next.parentNode.removeChild(next);
+            var next = validationElements[i].nextElementSibling;
+            if(next != null){
+                if (next.classList.contains(this.options.errorMessageClass)) {
+                    next.parentNode.removeChild(next);
+                }
             }
             if (validationElements[i].hasAttribute('data-tpl')) {
 
@@ -244,8 +244,10 @@ function Validation() {
 
     this.deleteErrorMsg = function (vEl) {
         vEl.classList.remove(this.options.errorClass);
-        if (vEl.nextSibling.classList.contains(this.options.errorMessageClass)) {
-            vEl.nextSibling.remove();
+        if(vEl.nextElementSibling != null){
+            if (vEl.nextElementSibling.classList.contains(this.options.errorMessageClass)) {
+                vEl.nextElementSibling.remove();
+            }
         }
     }
 
