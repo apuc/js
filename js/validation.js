@@ -83,14 +83,16 @@ function Validation() {
     this.customValidationOnblur = function (event) {
         var validationElement = event.target;
         var next = validationElement.nextSibling;
-        if (next.classList.contains(this.options.errorMessageClass)) {
-            next.parentNode.removeChild(next);
+        if(next != null){
+            if (next.classList.contains(this.options.errorMessageClass)) {
+                next.parentNode.removeChild(next);
+            }
         }
         if (validationElement.hasAttribute('data-tpl')) {
             var arr = validationElement.getAttribute('data-tpl');
             var pat = this.tpls();
             var val = validationElement.value;
-            console.log(pat);
+            //console.log(pat);
             if (!pat[arr.trim()].test(val)) {
                 this.generateErrorMsg(validationElement);
             }
@@ -271,4 +273,5 @@ function Validation() {
     this.addTpl = function(name, tpl){
         this.tpl[name] = tpl;
     }
+}
 }
