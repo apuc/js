@@ -10,8 +10,14 @@ function Validation() {
             errorMessageClass: 'errorMsgClass',
             ajaxUrl: 'ajax.php',
             ajax: true,
+            submitForm: true,
             tpl:[],
             ajaxSubmitSuccess: function (responseText, err, form) {
+                if (!err) {
+                    form.submit();
+                }
+            },
+            submitSuccess: function (err, form) {
                 if (!err) {
                     form.submit();
                 }
@@ -56,7 +62,18 @@ function Validation() {
                 }
             }
             if (validationElements[i].hasAttribute('data-tpl')) {
-
+                var arr = validationElements[i].getAttribute('data-tpl');
+                var pat = this.tpls();
+                var val = validationElements[i].value;
+                //console.log(pat[arr.trim()].test(val));
+                if (!pat[arr.trim()].test(val)) {
+                    this.generateErrorMsg(validationElements[i]);
+                    flag.push(false);
+                }
+                else {
+                    this.deleteErrorMsg(validationElements[i]);
+                    flag.push(true);
+                }
             }
             else {
                 if (!validationElements[i].checkValidity()) {
@@ -70,12 +87,14 @@ function Validation() {
                 }
             }
         }
-        if (this.findFalse(flag)) {
+        if (this.findFalse(flag) !== false) {
             if (this.options.ajax) {
                 this.ajaxValidPost(validationElements, this.options.ajaxSubmitSuccess);
             }
             else {
-                form.submit();
+                if(this.options.submitForm){
+                    this.options.submitSuccess(false,form);
+                }
             }
         }
     }
@@ -273,5 +292,4 @@ function Validation() {
     this.addTpl = function(name, tpl){
         this.tpl[name] = tpl;
     }
-}
 }
